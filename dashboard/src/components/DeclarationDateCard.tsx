@@ -21,10 +21,6 @@ const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
 
     const [open, setOpen] = useState<boolean>(false);
     const [individualStockData, setIndividualStockData] = useState<StockData>({} as StockData);
-    const symbols = stockData.data.map((stock: StockData) => stock.symbol);
-    const declarationDates = stockData.data.map((stock: StockData) => stock.announcement_Date).sort((a, b) => {
-        return new Date(b).getTime() - new Date(a).getTime();
-    });
 
     return (
         <Card sx={{ minWidth: 275, textAlign: 'center' }}>
