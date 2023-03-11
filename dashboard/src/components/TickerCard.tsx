@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardContent, Typography } from "@mui/material";
 
-interface TickerCardProps {
+export interface ITickerCard {
     ticker: string;
     declarationDate: string;
     exDivDate: string;
@@ -8,8 +8,12 @@ interface TickerCardProps {
     paymentDate: string;
 }
 
-const TickerCard = (props: TickerCardProps) => {
-    const { ticker, declarationDate, exDivDate, recordDate, paymentDate } = props;
+interface TickerCardProps {
+    tickerCard: ITickerCard;
+}
+
+const TickerCard = (tickerCard: TickerCardProps) => {
+    const { ticker, declarationDate, exDivDate, recordDate, paymentDate } = tickerCard.tickerCard;
 
     return (
         <Card sx={{ maxWidth: 345, textAlign: "center" }}>

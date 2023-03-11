@@ -1,23 +1,49 @@
-import React from 'react';
-import TickerCard from '../components/TickerCard';
+import BlankDateCards from '../components/BlankDateCards';
+import DateCards from '../components/DateCards';
 
-const tempTickerCard = {
-    ticker: "AAPL",
-    declarationDate: "2021-09-10",
-    exDivDate: "2021-09-10",
-    recordDate: "2021-09-10",
-    paymentDate: "2021-09-10",
+import { useQuery } from '@apollo/client';
+import { GET_STOCKS } from '../queries/get-stocks';
+
+
+interface StockData {
+    companyName: string;
+    symbol: string;
+    dividend_Ex_Date: string;
+    payment_Date: string;
+    record_Date: string;
+    dividend_Rate: number;
+    indicated_Annual_Dividend: number;
+    announcement_Date: string;
 }
+
+const currentDate = new Date().toISOString().slice(0, 10);
+console.log(currentDate)
 
 const Home = () => {
 
-    const { ticker, declarationDate, exDivDate, recordDate, paymentDate } = tempTickerCard;
+    //select date from calender custom component
+
+    const { loading, error, data } = useQuery(GET_STOCKS, {
+        variables: {
+            input: {
+                date: "2023-01-20"
+            },
+        },
+    });
+
+
+    console.log(error, data);
 
     return (
-        <div className="Home">
-            <header>Dividend Capture Calender</header>
-            <TickerCard ticker={ticker} declarationDate={declarationDate} exDivDate={exDivDate} recordDate={recordDate} paymentDate={paymentDate} />
-        </div>
+        <>
+            <div className="Home">
+                <header>Dividend Capture Calender</header>
+                {loading && <BlankDateCards />}
+                {!error && !loading && <DateCards
+                    data={data}
+                />}
+            </div>
+        </>
     );
 }
 

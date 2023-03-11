@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@apollo/server": "^4.4.0",
+    "apollo-server": "^3.11.1",
+    "axios": "^1.3.4",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.0",
+    "typescript": "^4.9.5"
+  },
+  "main": "server.ts",
+  "scripts": {
+    "start": "ts-node src/application/server.ts",
+    "generate:types": "graphql-codegen"
+  }
+}
