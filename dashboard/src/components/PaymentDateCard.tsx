@@ -13,9 +13,9 @@ const PaymentDateCard = (stockList: PaymentDateCardProps) => {
                 subheader="Investors receive dividend"
             />
             <CardContent>
-                {stockList.symbols.map((stock) => {
+                {stockList.symbols.map((stock, id) => {
                     return (
-                        <Card variant="outlined">
+                        <Card key={id} variant="outlined">
                             <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold">
                                 {`${stock} - ${stockList.dates[stockList.symbols.indexOf(stock)]}`}
                             </Typography>

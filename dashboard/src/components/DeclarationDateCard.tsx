@@ -1,11 +1,31 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { useState } from "react";
+import StockInfoModal from "./StockInfoModal";
 
 interface DeclarationDateCardProps {
-    symbols: string[];
-    dates: string[];
+    data: StockData[]
 }
 
-const DeclarationDateCard = (stockList: DeclarationDateCardProps) => {
+interface StockData {
+    companyName: string;
+    symbol: string;
+    dividend_Ex_Date: string;
+    payment_Date: string;
+    record_Date: string;
+    dividend_Rate: number;
+    indicated_Annual_Dividend: number;
+    announcement_Date: string;
+}
+
+const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
+
+    const [open, setOpen] = useState<boolean>(false);
+    const [individualStockData, setIndividualStockData] = useState<StockData>({} as StockData);
+    const symbols = stockData.data.map((stock: StockData) => stock.symbol);
+    const declarationDates = stockData.data.map((stock: StockData) => stock.announcement_Date).sort((a, b) => {
+        return new Date(b).getTime() - new Date(a).getTime();
+    });
+
     return (
         <Card sx={{ minWidth: 275, textAlign: 'center' }}>
             <CardHeader
@@ -13,16 +33,17 @@ const DeclarationDateCard = (stockList: DeclarationDateCardProps) => {
                 subheader="Dividend is announced"
             />
             <CardContent>
-                {stockList.symbols.map((stock) => {
+                {stockData.data.map((stock, id) => {
                     return (
-                        <Card variant="outlined" onClick={() => console.log("HELLO")}>
+                        <Card key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
                             <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold">
-                                {`${stock} - ${stockList.dates[stockList.symbols.indexOf(stock)]}`}
+                                {stock.symbol}
                             </Typography>
                         </Card>
                     );
                 })}
             </CardContent>
+            <StockInfoModal open={open} stock={individualStockData} setOpen={setOpen} />
         </Card>
     );
 
