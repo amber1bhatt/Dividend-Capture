@@ -3,7 +3,7 @@ import { useState } from "react";
 import StockInfoModal from "./StockInfoModal";
 
 interface DeclarationDateCardProps {
-    data: StockData[]
+    data: StockData[];
 }
 
 interface StockData {
@@ -31,16 +31,19 @@ const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
             <CardContent>
                 {stockData.data.map((stock, id) => {
                     return (
-                        <Card key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
-                            <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold">
-                                {stock.symbol}
-                            </Typography>
-                        </Card>
+                        <div style={{ marginBottom: '5%' }}>
+                            <Card sx={{ width: 150, textAlign: 'center', margin: 'auto', borderRadius: 3 }} key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
+                                <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold" margin='auto'>
+                                    {stock.symbol}
+                                </Typography>
+                            </Card>
+                        </div>
                     );
                 })}
             </CardContent>
             <StockInfoModal open={open} stock={individualStockData} setOpen={setOpen} />
         </Card>
+
     );
 
 }

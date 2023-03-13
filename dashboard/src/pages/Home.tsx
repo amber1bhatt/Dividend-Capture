@@ -25,28 +25,9 @@ interface StockData {
 
 const Home = () => {
 
-    //select date from calender custom component
     const [date, setDate] = useState<AdapterDateFns | null>(new AdapterDateFns());
-
-    // console.log(format(new Date(date?.toJsDate(x => x)), 'yyyy-MM-dd'));
-
     const adapterDateFNSToDate = new Date(date?.toString().split(' ').slice(1, 4).join('-') ?? '');
     const selectedDate = adapterDateFNSToDate.toString() !== 'Invalid Date' ? format(adapterDateFNSToDate, 'yyyy-MM-dd') : format(endOfDay(new Date()), 'yyyy-MM-dd');
-
-
-    // console.log(date !== null ? format(new Date(date.date()), 'yyyy-MM-dd') : 'date is null');
-
-    // console.log(new Date(date?.toString().split(' ').slice(1, 4).join('-') === "Invalid Date" ? ''));
-
-    // const selectedDate = new Date(date?.toString().split(' ').slice(1, 4).join('-') ?? '');
-    // console.log(selectedDate);
-
-    // console.log(date ? format(new Date(date.toString()), 'yyyy-MM-dd') : 'date is null');
-
-    // const selectedDate = date ? format(new Date(date), 'yyyy-MM-dd') : '';
-    // const selectedDate = date ? date.format(date.getValue(), 'yyyy-MM-dd') : '';
-
-    // console.log(selectedDate)
 
     const { loading, error, data } = useQuery<QueryData>(GET_STOCKS, {
         variables: {
@@ -55,9 +36,6 @@ const Home = () => {
             },
         },
     });
-
-
-    console.log(error, data);
 
     return (
         <>

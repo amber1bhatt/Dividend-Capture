@@ -4,6 +4,10 @@ interface GetStocksInput {
   date: string;
 }
 
+interface GetStockPriceInput {
+  symbol: string;
+}
+
 interface StockResults {
   companyName: string;
   symbol: string;
@@ -13,6 +17,10 @@ interface StockResults {
   dividend_Rate: number;
   indicated_Annual_Dividend: number;
   announcement_Date: string;
+}
+
+interface StockLastSalePrice {
+  primaryData: { lastSalePrice: string };
 }
 
 class StockProvider {
@@ -28,6 +36,17 @@ class StockProvider {
 
     console.log(returnValues.data.data.calendar.rows);
     return returnValues.data.data.calendar.rows;
+  }
+
+  public async getStockPrice(
+    input: GetStockPriceInput
+  ): Promise<StockLastSalePrice> {
+    const returnValues = await axios.get(
+      `https://api.nasdaq.com/api/quote/${input.symbol}/info?assetclass=stocks`
+    );
+
+    console.log(returnValues.data.data.primaryData);
+    return returnValues.data.data.primaryData;
   }
 }
 

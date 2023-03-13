@@ -12,12 +12,21 @@ const typeDefs = gql`
     announcement_Date: String!
   }
 
+  type StockLastSalePrice {
+    lastSalePrice: String!
+  }
+
   type Query {
     stocks(input: GetStocksInput!): [Stock!]!
+    stockPrice(input: GetStockPriceInput!): StockLastSalePrice!
   }
 
   input GetStocksInput {
     date: String!
+  }
+
+  input GetStockPriceInput {
+    symbol: String!
   }
 `;
 

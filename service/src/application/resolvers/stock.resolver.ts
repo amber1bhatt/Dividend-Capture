@@ -5,6 +5,10 @@ interface GetStocksInput {
   date: string;
 }
 
+interface GetStockPriceInput {
+  symbol: string;
+}
+
 interface StockResults {
   companyName: string;
   symbol: string;
@@ -16,6 +20,10 @@ interface StockResults {
   announcement_Date: string;
 }
 
+interface StockLastSalePrice {
+  primaryData: { lastSalePrice: string };
+}
+
 const stockResolver = {
   Query: {
     stocks: async (
@@ -23,6 +31,13 @@ const stockResolver = {
       args: { input: GetStocksInput }
     ): Promise<StockResults | null> => {
       return stockProvider.getStocks(args.input);
+    },
+
+    stockPrice: async (
+      _: Root,
+      args: { input: GetStockPriceInput }
+    ): Promise<StockLastSalePrice> => {
+      return stockProvider.getStockPrice(args.input);
     },
   },
 };

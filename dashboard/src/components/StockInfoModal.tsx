@@ -1,4 +1,6 @@
+import { useQuery } from "@apollo/client";
 import { Card, CardContent, Modal, Typography } from "@mui/material";
+import { GET_LAST_STOCK_PRICE } from "../queries/get-last-stock-price";
 
 interface StockInfoModalProps {
     open: boolean;
@@ -15,6 +17,10 @@ interface StockData {
     dividend_Rate: number;
     indicated_Annual_Dividend: number;
     announcement_Date: string;
+}
+
+interface StockPrice {
+    stockPrice: { lastSalePrice: string };
 }
 
 const StockInfoModal = (props: StockInfoModalProps) => {
@@ -65,6 +71,16 @@ const StockInfoModal = (props: StockInfoModalProps) => {
         fontSize: 14,
     };
 
+    const { loading, error, data } = useQuery<StockPrice>(GET_LAST_STOCK_PRICE, {
+        variables: {
+            input: {
+                symbol: stock.symbol
+            },
+        },
+    });
+
+    // const stockPrice = parseInt(data ? data.stockPrice.lastSalePrice : '0');
+    const stockPrice = parseFloat(data ? data.stockPrice.lastSalePrice.replace('$', '') : '0');
 
     return (
         <Modal
@@ -94,6 +110,24 @@ const StockInfoModal = (props: StockInfoModalProps) => {
                         <Typography variant="body2" color="textSecondary">
                             {`$${stock.indicated_Annual_Dividend} / share`}
                         </Typography>
+                    </div>
+                    <div style={infoStyle}>
+                        <Typography variant="body2">Last Sale Price:</Typography>
+                        {loading && <Typography variant="body2" color="textSecondary">
+                            Loading...
+                        </Typography>
+                        }
+                        {(!loading && !error) && <Typography variant="body2" color="textSecondary">
+                            {`${data?.stockPrice.lastSalePrice}`}
+                        </Typography>}
+                    </div>
+                    <div style={infoStyle}>
+                        <Typography variant="body2" fontWeight={"bold"}>Anticipated Gain on $1000:</Typography>
+                        {loading && <Typography variant="body2" color="textSecondary">
+                            Loading...
+                        </Typography>
+                        }
+                        {(!loading && !error) && <Typography variant="body2" color="textSecondary">{`$${((1000 / stockPrice) * stock.dividend_Rate).toFixed(2)}`}</Typography>}
                     </div>
                 </CardContent>
             </Card>
