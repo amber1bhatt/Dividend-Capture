@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { useState } from "react";
+import { GET_LAST_STOCK_PRICE } from "../queries/get-last-stock-price";
 import StockInfoModal from "./StockInfoModal";
 
 interface DeclarationDateCardProps {
@@ -31,13 +32,13 @@ const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
             <CardContent>
                 {stockData.data.map((stock, id) => {
                     return (
-                        <div style={{ marginBottom: '5%' }}>
+                        <Box sx={{ marginBottom: '5%' }}>
                             <Card sx={{ width: 150, textAlign: 'center', margin: 'auto', borderRadius: 3 }} key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
                                 <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold" margin='auto'>
-                                    {stock.symbol}
+                                    {`${stock.symbol} | ${stock.announcement_Date}`}
                                 </Typography>
                             </Card>
-                        </div>
+                        </Box>
                     );
                 })}
             </CardContent>
