@@ -35,23 +35,22 @@ const DateCards = ({ data, date, setDate }: DateCardsProps) => {
         return new Date(b).getTime() - new Date(a).getTime();
     });
 
-
     return (
         <>
             <CustomDatePicker date={date} setDate={setDate} />
-            <Grid sx={{ flexGrow: 1 }} container spacing={2}>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <DeclarationDateCard data={stocks} />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Grid sx={{ flexGrow: 1 }} container justifyContent='center' spacing={4}>
+                {/* <Grid item xs={12} sm={6} md={4} lg={3}> */}
+                <DeclarationDateCard data={stocks} />
+                {/* </Grid> */}
+                {/* <Grid item xs={8} sm={6} md={4} lg={3}>
                     <ExDividendDateCard exDividendDate={exDivDate} />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={8} sm={6} md={4} lg={3}>
                     <RecordDateCard recordDate={recordDate} />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={8} sm={6} md={4} lg={3}>
                     <PaymentDateCard symbols={symbols} dates={paymentDates} />
-                </Grid>
+                </Grid> */}
             </Grid>
         </>
     );
