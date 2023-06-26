@@ -34,7 +34,14 @@ class StockProvider {
       return null;
     }
 
-    console.log(returnValues.data.data.calendar.rows);
+    //if companyName is null replace with symbol
+    returnValues.data.data.calendar.rows.forEach((element: any) => {
+      if (element.companyName === null) {
+        element.companyName = element.symbol;
+      }
+    });
+
+    // console.log(returnValues.data.data.calendar.rows);
     return returnValues.data.data.calendar.rows;
   }
 
@@ -45,7 +52,7 @@ class StockProvider {
       `https://api.nasdaq.com/api/quote/${input.symbol}/info?assetclass=stocks`
     );
 
-    console.log(returnValues.data.data.primaryData);
+    // console.log(returnValues.data.data.primaryData);
     return returnValues.data.data.primaryData;
   }
 }
