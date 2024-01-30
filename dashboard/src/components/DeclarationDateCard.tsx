@@ -24,154 +24,140 @@ interface CurrentStockPrice {
     }
 }
 
-const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
-
+const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const [, setIndividualStockData] = useState<StockData>({} as StockData);
 
+    const commonTextStyle = {
+        fontFamily: 'Roboto',
+    };
+
+    const colorStyles = {
+        white: '#ffffff',
+        black: '#000000',
+        gray: '#808080',
+        orange: '#FFA500',
+        lightBlue: '#ADD8E6',
+        darkBlue: '#0000FF',
+        gold: '#998100',
+        green: '#006400',
+        headerColor: '#26867C'
+    };
+
     const titleStyle = {
+        ...commonTextStyle,
         fontSize: 22,
         fontWeight: 'bold',
         marginBottom: 1,
-        // color: '#3f51b5',
-        color: 'black',
+        color: colorStyles.white,
         textAlign: 'center',
         paddingLeft: '5%',
-        // paddingTop: '5%',
-        fontFamily: 'Roboto',
     };
 
-    const tickerStyle = {
-        marginBottom: 1,
-        // color: '#555',
-        marginTop: 1,
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontFamily: 'Roboto',
-        fontSize: 16,
-    };
-
-    const dateStyle = {
+    const textStyle = {
+        ...commonTextStyle,
         marginBottom: 2,
-        // color: '#555',
-        color: 'white',
         textAlign: 'center',
         fontWeight: 'bold',
-        fontFamily: 'Roboto',
         fontSize: 16,
+        marginTop: 1
     };
 
     const dividerStyle = {
-        // margin: '16px 0',
-        // borderBottom: '1px solid #ddd',
         borderBottom: '1px solid white',
+        borderColor: colorStyles.headerColor
     };
 
     const infoStyle = {
-        // display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '8px 0',
-        // color: '#555',
-        color: 'white',
+        ...commonTextStyle,
         fontSize: 16,
         fontWeight: 'bold',
-        fontFamily: 'Roboto',
+        padding: "8px 0px"
     };
 
-    const sortedStockData = [...stockData.data]
+    const sortedStockData = [...data];
     sortedStockData.sort((a, b) => a.dividend_Rate - b.dividend_Rate > 0 ? -1 : 1);
 
     const GetLastStockPrice = (ticker: string) => {
         const { data } = useQuery<CurrentStockPrice>(GET_LAST_STOCK_PRICE, {
             variables: {
                 input: {
-                    symbol: ticker
+                    symbol: ticker,
                 },
             },
         });
 
         return data?.stockPrice.lastSalePrice;
-    }
+    };
 
     return (
-        // <Card sx={{ width: '50%', textAlign: 'center' }}>
-        //     <CardHeader
-        //         title="Declaration Date"
-        //         subheader="Dividend is announced"
-        //     />
-        //     <CardContent>
         <>
-            {
-                sortedStockData.map((stock, id) => {
-                    const price = GetLastStockPrice(stock.symbol) ?? 'Unknown'
-                    const gain = (2000 / Number(price.replace('$', '')) * stock.dividend_Rate).toFixed(2)
-                    return (
-                        <Grid key={id} item>
-                            <Box sx={{ marginBottom: '5%', justifyContent: 'center' }} gridColumn={"auto"}>
-                                <Card sx={{ width: 300, textAlign: 'center', borderRadius: 3, background: '#956BAE' }} key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
-                                    {/* <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold" margin='auto'>
-                                {stock.symbol}
-                            </Typography> */}
-                                    <Card sx={{ height: 75, textAlign: 'center', paddingTop: '5%', background: '#F1B944' }}>
-                                        <Typography sx={titleStyle} variant="h5" component="h2" noWrap>
-                                            {stock.companyName}
-                                        </Typography>
-                                        <Typography sx={{ fontSize: 15, fontWeight: 'bold' }} variant="h5" component="h2" noWrap>
-                                            {`Potential Gain on 2k: $${price !== 'Unknown' ? gain : 'Unknown'}`}
-                                        </Typography>
-                                    </Card>
-                                    <div style={dividerStyle}></div>
-                                    <Typography sx={tickerStyle} color="textSecondary">
-                                        {stock.symbol}
+            {sortedStockData.map((stock, id) => {
+                const price = GetLastStockPrice(stock.symbol) ?? 'Unknown';
+                const gain = (2000 / Number(price.replace('$', '')) * stock.dividend_Rate).toFixed(2);
+
+                return (
+                    <Grid key={id} item>
+                        <Box sx={{ marginBottom: '5%', justifyContent: 'center' }} gridColumn="auto">
+                            <Card
+                                sx={{ width: 300, textAlign: 'center', borderRadius: 3, background: '#e4e4e4', borderColor: colorStyles.headerColor }}
+                                key={id}
+                                variant="outlined"
+                                onClick={() => {
+                                    setOpen(!open);
+                                    setIndividualStockData(stock);
+                                }}
+                            >
+                                <Card sx={{ height: 75, textAlign: 'center', paddingTop: '5%', background: colorStyles.headerColor, borderRadius: '3px 3px 0 0' }}>
+                                    <Typography sx={titleStyle} variant="h5" component="h2" noWrap>
+                                        {stock.companyName}
                                     </Typography>
-                                    <Typography sx={dateStyle} variant="body2" color="textSecondary">
-                                        {`Announcement: ${stock.announcement_Date}`}
+                                    <Typography sx={{ fontSize: 15, fontWeight: 'bold' }} variant="h5" component="h2" noWrap>
+                                        {`Potential Gain on 2k: $${price !== 'Unknown' ? gain : 'Unknown'}`}
                                     </Typography>
-                                    <Typography sx={dateStyle} color="textSecondary">
-                                        {`Ex-Div: ${stock.dividend_Ex_Date}`}
-                                    </Typography>
-                                    <Typography sx={dateStyle} color="textSecondary">
-                                        {`Record: ${stock.record_Date}`}
-                                    </Typography>
-                                    <Typography sx={dateStyle} color="textSecondary">
-                                        {`Payment: ${stock.payment_Date}`}
-                                    </Typography>
-                                    <div style={dividerStyle}></div>
-                                    <Card sx={{ height: 300, textAlign: 'center', background: '#27837B' }}>
-                                        <div style={infoStyle}>
-                                            <Typography sx={infoStyle} variant="body2">Current Price:</Typography>
-                                            <Typography sx={infoStyle} variant="body2" color="textSecondary">
-                                                {`${price}`}
-                                            </Typography>
-                                        </div>
-                                        <div style={infoStyle}>
-                                            <Typography sx={infoStyle} variant="body2">Dividend Rate:</Typography>
-                                            <Typography sx={infoStyle} variant="body2" color="textSecondary">
-                                                {`$${stock.dividend_Rate} / share`}
-                                            </Typography>
-                                        </div>
-                                        <div style={infoStyle}>
-                                            <Typography sx={infoStyle} variant="body2">Annual Dividend:</Typography>
-                                            <Typography sx={infoStyle} variant="body2" color="textSecondary">
-                                                {`$${stock.indicated_Annual_Dividend} / share`}
-                                            </Typography>
-                                        </div>
-                                    </Card>
                                 </Card>
-                            </Box>
-                        </Grid>
-                    );
-                })
-            }
+                                <div style={dividerStyle}></div>
+                                <Typography sx={{ ...textStyle, color: colorStyles.black }}>{stock.symbol}</Typography>
+                                <Typography sx={{ ...textStyle, color: colorStyles.orange }}>
+                                    {`Announcement: ${stock.announcement_Date}`}
+                                </Typography>
+                                <Typography sx={{ ...textStyle, color: colorStyles.lightBlue }}>
+                                    {`Ex-Div: ${stock.dividend_Ex_Date}`}
+                                </Typography>
+                                <Typography sx={{ ...textStyle, color: colorStyles.darkBlue }}>
+                                    {`Record: ${stock.record_Date}`}
+                                </Typography>
+                                <Typography sx={{ ...textStyle, color: colorStyles.gold }}>
+                                    {`Payment: ${stock.payment_Date}`}
+                                </Typography>
+                                <div style={dividerStyle}></div>
+                                <Card sx={{ height: 300, textAlign: 'center', background: '#e4e4e4' }}>
+                                    <div style={infoStyle}>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.black }}>Current Price:</Typography>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.gray }}>
+                                            {`${price}`}
+                                        </Typography>
+                                    </div>
+                                    <div style={infoStyle}>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.black }}>Dividend Rate:</Typography>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.green }}>
+                                            {`$${stock.dividend_Rate} / share`}
+                                        </Typography>
+                                    </div>
+                                    <div style={infoStyle}>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.black }}>Annual Dividend:</Typography>
+                                        <Typography sx={{ ...infoStyle, color: colorStyles.gold }}>
+                                            {`$${stock.indicated_Annual_Dividend} / share`}
+                                        </Typography>
+                                    </div>
+                                </Card>
+                            </Card>
+                        </Box>
+                    </Grid>
+                );
+            })}
         </>
-        // </CardContent>
-        // <StockInfoModal open={open} stock={individualStockData} setOpen={setOpen} />
-        // </Card>
-
     );
+};
 
-}
-
-export default DeclarationDateCard
+export default DeclarationDateCard;

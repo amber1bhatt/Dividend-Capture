@@ -14,6 +14,7 @@ const CustomDatePicker = ({ date, setDate }: CustomDatePickerProps) => {
                 defaultValue={new AdapterDateFns()}
                 value={date}
                 onChange={(pickedDate) => setDate(pickedDate)}
+                sx={{ paddingBottom: "10px" }}
             />
         </LocalizationProvider>
     );

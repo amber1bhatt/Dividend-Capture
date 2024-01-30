@@ -38,9 +38,8 @@ const Home = () => {
     });
 
     return (
-        <div className="Home" style={{ background: "#ECDCB6" }}>
-            {/* <div className="Home"> */}
-            <header>Dividend Capture Calender</header>
+        <div className="Home">
+            <header style={{ paddingBottom: "10px" }}>Dividend Capture Calender</header>
             {(loading || error || data?.stocks === null) && <BlankDateCards date={date} setDate={setDate} />}
             {!error && !loading && data?.stocks && <DateCards
                 data={data.stocks}
