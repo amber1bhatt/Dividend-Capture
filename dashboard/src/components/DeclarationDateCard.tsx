@@ -41,7 +41,8 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
         darkBlue: '#0000FF',
         gold: '#998100',
         green: '#006400',
-        headerColor: '#26867C'
+        headerColor: '#4CB5F5',
+        cardBackgroundColor: '#f1f1f1'
     };
 
     const titleStyle = {
@@ -64,7 +65,7 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
     };
 
     const dividerStyle = {
-        borderBottom: '1px solid white',
+        borderBottom: `3px solid ${colorStyles.headerColor}`,
         borderColor: colorStyles.headerColor
     };
 
@@ -94,13 +95,13 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
         <>
             {sortedStockData.map((stock, id) => {
                 const price = GetLastStockPrice(stock.symbol) ?? 'Unknown';
-                const gain = (2000 / Number(price.replace('$', '')) * stock.dividend_Rate).toFixed(2);
+                const gain = (1000 / Number(price.replace('$', '')) * stock.dividend_Rate).toFixed(2);
 
                 return (
                     <Grid key={id} item>
                         <Box sx={{ marginBottom: '5%', justifyContent: 'center' }} gridColumn="auto">
                             <Card
-                                sx={{ width: 300, textAlign: 'center', borderRadius: 3, background: '#e4e4e4', borderColor: colorStyles.headerColor }}
+                                sx={{ width: 300, textAlign: 'center', borderRadius: 3, background: colorStyles.cardBackgroundColor, borderColor: colorStyles.headerColor, borderWidth: "3px" }}
                                 key={id}
                                 variant="outlined"
                                 onClick={() => {
@@ -113,7 +114,7 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
                                         {stock.companyName}
                                     </Typography>
                                     <Typography sx={{ fontSize: 15, fontWeight: 'bold' }} variant="h5" component="h2" noWrap>
-                                        {`Potential Gain on 2k: $${price !== 'Unknown' ? gain : 'Unknown'}`}
+                                        {`Potential Gain on 1k: $${price !== 'Unknown' ? gain : 'Unknown'}`}
                                     </Typography>
                                 </Card>
                                 <div style={dividerStyle}></div>
@@ -131,7 +132,7 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
                                     {`Payment: ${stock.payment_Date}`}
                                 </Typography>
                                 <div style={dividerStyle}></div>
-                                <Card sx={{ height: 300, textAlign: 'center', background: '#e4e4e4' }}>
+                                <Card sx={{ height: 300, textAlign: 'center', background: colorStyles.cardBackgroundColor }}>
                                     <div style={infoStyle}>
                                         <Typography sx={{ ...infoStyle, color: colorStyles.black }}>Current Price:</Typography>
                                         <Typography sx={{ ...infoStyle, color: colorStyles.gray }}>
