@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, Typography, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import TickerCard, { ITickerCard } from "./TickerCard";
 
 

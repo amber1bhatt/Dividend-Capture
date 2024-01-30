@@ -1,7 +1,6 @@
-import { Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { GET_LAST_STOCK_PRICE } from "../queries/get-last-stock-price";
-import StockInfoModal from "./StockInfoModal";
 import { useQuery } from "@apollo/client";
 
 interface DeclarationDateCardProps {
@@ -28,7 +27,7 @@ interface CurrentStockPrice {
 const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
 
     const [open, setOpen] = useState<boolean>(false);
-    const [individualStockData, setIndividualStockData] = useState<StockData>({} as StockData);
+    const [, setIndividualStockData] = useState<StockData>({} as StockData);
 
     const titleStyle = {
         fontSize: 22,
@@ -84,9 +83,8 @@ const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
     const sortedStockData = [...stockData.data]
     sortedStockData.sort((a, b) => a.dividend_Rate - b.dividend_Rate > 0 ? -1 : 1);
 
-    const getLastStockPrice = (ticker: string) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { loading, error, data } = useQuery<CurrentStockPrice>(GET_LAST_STOCK_PRICE, {
+    const GetLastStockPrice = (ticker: string) => {
+        const { data } = useQuery<CurrentStockPrice>(GET_LAST_STOCK_PRICE, {
             variables: {
                 input: {
                     symbol: ticker
@@ -107,10 +105,10 @@ const DeclarationDateCard = (stockData: DeclarationDateCardProps) => {
         <>
             {
                 sortedStockData.map((stock, id) => {
-                    const price = getLastStockPrice(stock.symbol) ?? 'Unknown'
+                    const price = GetLastStockPrice(stock.symbol) ?? 'Unknown'
                     const gain = (2000 / Number(price.replace('$', '')) * stock.dividend_Rate).toFixed(2)
                     return (
-                        <Grid item>
+                        <Grid key={id} item>
                             <Box sx={{ marginBottom: '5%', justifyContent: 'center' }} gridColumn={"auto"}>
                                 <Card sx={{ width: 300, textAlign: 'center', borderRadius: 3, background: '#956BAE' }} key={id} variant="outlined" onClick={() => { setOpen(!open); setIndividualStockData(stock) }}>
                                     {/* <Typography variant="body1" color="textSecondary" component="p" fontWeight="bold" margin='auto'>
