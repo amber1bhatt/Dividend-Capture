@@ -3,9 +3,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Dispatch, SetStateAction } from "react";
 import CustomDatePicker from "./CustomDatePicker";
 import DeclarationDateCard from "./DeclarationDateCard";
-import ExDividendDateCard from "./ExDividendDateCard";
-import PaymentDateCard from "./PaymentDateCard";
-import RecordDateCard from "./RecordDateCard";
+// import ExDividendDateCard from "./ExDividendDateCard";
+// import PaymentDateCard from "./PaymentDateCard";
+// import RecordDateCard from "./RecordDateCard";
 
 interface DateCardsProps {
     data: StockData[]
@@ -27,13 +27,13 @@ interface StockData {
 const DateCards = ({ data, date, setDate }: DateCardsProps) => {
 
     const stocks = data
-    const exDivDate = stocks[0].dividend_Ex_Date;
-    const recordDate = stocks[0].record_Date;
+    // const exDivDate = stocks[0].dividend_Ex_Date;
+    // const recordDate = stocks[0].record_Date;
 
-    const symbols = stocks.map((stock: StockData) => stock.symbol);
-    const paymentDates = stocks.map((stock: StockData) => stock.payment_Date).sort((a, b) => {
-        return new Date(b).getTime() - new Date(a).getTime();
-    });
+    // const symbols = stocks.map((stock: StockData) => stock.symbol);
+    // const paymentDates = stocks.map((stock: StockData) => stock.payment_Date).sort((a, b) => {
+    //     return new Date(b).getTime() - new Date(a).getTime();
+    // });
 
     return (
         <>
