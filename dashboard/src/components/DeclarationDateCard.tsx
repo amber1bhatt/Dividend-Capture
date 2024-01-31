@@ -37,10 +37,10 @@ const DeclarationDateCard = ({ data }: DeclarationDateCardProps) => {
         black: '#000000',
         gray: '#808080',
         orange: '#FFA500',
-        lightBlue: '#ADD8E6',
-        darkBlue: '#0000FF',
-        gold: '#998100',
-        green: '#006400',
+        lightBlue: '#00b7f1',
+        darkBlue: '#4d4db3',
+        gold: '#f2cc00',
+        green: '#00b600',
         headerColor: '#4CB5F5',
         cardBackgroundColor: '#f1f1f1'
     };

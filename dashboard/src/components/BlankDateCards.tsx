@@ -19,7 +19,7 @@ const cardHeaderTitles = [ImportantDates.DECLARATION_DATE, ImportantDates.EX_DIV
 
 const BlankDateCards = ({ date, setDate }: BlankDateCardsProps) => {
     return (
-        <>
+        <div style={{ textAlign: 'center' }}>
             <CustomDatePicker date={date} setDate={setDate} />
             <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                 {cardHeaderTitles.map((title, id) => {
@@ -37,7 +37,7 @@ const BlankDateCards = ({ date, setDate }: BlankDateCardsProps) => {
                     );
                 })}
             </Grid>
-        </>
+        </div>
     );
 }
 
