@@ -8,11 +8,15 @@
   },
   "devDependencies": {
     "@types/node": "^18.14.0",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
     "typescript": "^4.9.5"
   },
   "main": "server.ts",
   "scripts": {
     "start": "ts-node src/application/server.ts",
-    "generate:types": "graphql-codegen"
+    "generate:types": "graphql-codegen",
+    "lint": "eslint . --ext .ts --fix"
   }
 }

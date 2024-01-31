@@ -52,7 +52,8 @@ class StockProvider {
     }
 
     //if companyName is null replace with symbol
-    returnValues.data.data.calendar.rows.forEach((element: any) => {
+    returnValues.data.data.calendar.rows.forEach((element: StockResults) => {
+      console.log(element);
       if (element.companyName === null) {
         element.companyName = element.symbol;
       }
